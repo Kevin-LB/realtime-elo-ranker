@@ -1,13 +1,22 @@
 import { Module } from '@nestjs/common';
-import { RankingService } from './ranking/ranking.service';
-import { RankingController } from './ranking/ranking.controller';
-import { PlayerService } from './player/player.service';
-import { PlayerController } from './player/player.controller';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { RankingModule } from './ranking/ranking.module';
+import { PlayerModule } from './player/player.module';
+import { MatchModule } from './match/match.module';
+import { Player } from './player/player.entity';
 
 @Module({
-  providers: [RankingService, PlayerService],
-  controllers: [RankingController, PlayerController],
-  exports: [RankingService],
+  imports: [
+    TypeOrmModule.forRoot({
+      type: 'sqljs',
+      autoSave: true, 
+      location: 'database.sqlite', 
+      entities: [Player], 
+      synchronize: true, 
+    }),
+    RankingModule,
+    PlayerModule,
+    MatchModule,
+  ],
 })
-
 export class AppModule {}

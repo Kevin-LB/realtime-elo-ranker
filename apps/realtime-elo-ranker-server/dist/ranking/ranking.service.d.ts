@@ -1,10 +1,7 @@
+import { Repository } from 'typeorm';
+import { Player } from '../player/player.entity';
 export declare class RankingService {
-    private ranking;
-    constructor();
-    updateRanking(playerId: string, score: number): void;
-    getPlayerScore(playerId: string): number | undefined;
-    getRanking(): {
-        playerId: string;
-        score: number;
-    }[];
+    private playerRepository;
+    constructor(playerRepository: Repository<Player>);
+    getRanking(): Promise<Player[]>;
 }

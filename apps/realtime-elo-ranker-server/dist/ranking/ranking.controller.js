@@ -8,9 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RankingController = void 0;
 const common_1 = require("@nestjs/common");
@@ -19,40 +16,19 @@ let RankingController = class RankingController {
     constructor(rankingService) {
         this.rankingService = rankingService;
     }
-    updateRanking(body) {
-        this.rankingService.updateRanking(body.playerId, body.score);
-        return { message: 'Classement mis à jour', ranking: this.rankingService.getRanking() };
-    }
-    getPlayerScore(playerId) {
-        return { playerId, score: this.rankingService.getPlayerScore(playerId) };
-    }
-    getRanking() {
+    async getRanking() {
         return this.rankingService.getRanking();
     }
 };
 exports.RankingController = RankingController;
 __decorate([
-    (0, common_1.Post)('update'),
-    __param(0, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], RankingController.prototype, "updateRanking", null);
-__decorate([
-    (0, common_1.Get)(':playerId'),
-    __param(0, (0, common_1.Param)('playerId')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
-], RankingController.prototype, "getPlayerScore", null);
-__decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], RankingController.prototype, "getRanking", null);
 exports.RankingController = RankingController = __decorate([
-    (0, common_1.Controller)('ranking'),
+    (0, common_1.Controller)('api/ranking'),
     __metadata("design:paramtypes", [ranking_service_1.RankingService])
 ], RankingController);
 //# sourceMappingURL=ranking.controller.js.map

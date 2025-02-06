@@ -15,34 +15,44 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PlayerController = void 0;
 const common_1 = require("@nestjs/common");
 const player_service_1 = require("./player.service");
+const create_player_1 = require("./DTO/create_player");
 let PlayerController = class PlayerController {
     constructor(playerService) {
         this.playerService = playerService;
     }
-    getPlayer(id) {
-        return this.playerService.getPlayerById(id);
-    }
-    createPlayer(playerData) {
+    async createPlayer(playerData) {
         return this.playerService.createPlayer(playerData);
+    }
+    async getPlayer(id) {
+        return this.playerService.getPlayer(id);
+    }
+    async getAllPlayers() {
+        return this.playerService.getAllPlayers();
     }
 };
 exports.PlayerController = PlayerController;
+__decorate([
+    (0, common_1.Post)(),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [create_player_1.CreatePlayerDTO]),
+    __metadata("design:returntype", Promise)
+], PlayerController.prototype, "createPlayer", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], PlayerController.prototype, "getPlayer", null);
 __decorate([
-    (0, common_1.Post)(),
-    __param(0, (0, common_1.Body)()),
+    (0, common_1.Get)(),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], PlayerController.prototype, "createPlayer", null);
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], PlayerController.prototype, "getAllPlayers", null);
 exports.PlayerController = PlayerController = __decorate([
-    (0, common_1.Controller)('player'),
+    (0, common_1.Controller)('api/player'),
     __metadata("design:paramtypes", [player_service_1.PlayerService])
 ], PlayerController);
 //# sourceMappingURL=player.controller.js.map

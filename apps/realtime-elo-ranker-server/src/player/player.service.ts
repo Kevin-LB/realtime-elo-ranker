@@ -1,16 +1,26 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Player } from './player.entity';
+import { CreatePlayerDTO } from './DTO/create_player';
 
 @Injectable()
 export class PlayerService {
-  private players = new Map<string, any>();
+  constructor(
+    @InjectRepository(Player)
+    private playerRepository: Repository<Player>,
+  ) {}
 
-  getPlayerById(id: string) {
-    return this.players.get(id) || { error: 'Player not found' };
+  async createPlayer(playerData: CreatePlayerDTO): Promise<Player> {
+    const player = this.playerRepository.create(playerData);
+    return this.playerRepository.save(player);
   }
 
-  createPlayer(playerData: any) {
-    const id = `${Date.now()}`;
-    this.players.set(id, { id, ...playerData });
-    return { id, ...playerData };
+  async getPlayer(id: string): Promise<Player | null> {
+    return this.playerRepository.findOne({ where: { id } });
+  }
+
+  async getAllPlayers(): Promise<Player[]> {
+    return this.playerRepository.find();
   }
 }

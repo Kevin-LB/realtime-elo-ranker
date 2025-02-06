@@ -1,17 +1,23 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import { Controller, Post, Get, Body, Param } from '@nestjs/common';
 import { PlayerService } from './player.service';
+import { CreatePlayerDTO } from './DTO/create_player';
 
-@Controller('player')
+@Controller('api/player')
 export class PlayerController {
   constructor(private readonly playerService: PlayerService) {}
 
-  @Get(':id')
-  getPlayer(@Param('id') id: string) {
-    return this.playerService.getPlayerById(id);
+  @Post()
+  async createPlayer(@Body() playerData: CreatePlayerDTO) {
+    return this.playerService.createPlayer(playerData);
   }
 
-  @Post()
-  createPlayer(@Body() playerData: any) {
-    return this.playerService.createPlayer(playerData);
+  @Get(':id')
+  async getPlayer(@Param('id') id: string) {
+    return this.playerService.getPlayer(id);
+  }
+
+  @Get()
+  async getAllPlayers() {
+    return this.playerService.getAllPlayers();
   }
 }
