@@ -45,3 +45,10 @@ pnpm add -w @nestjs/typeorm typeorm sql.js
 simuler un match :
 
 curl -X POST http://localhost:3000/api/match -H "Content-Type: application/json" -d '{"player1Id": "joueur 1", "player2Id": "joueur 2", "result": "WINNER_PLAYER2"}'
+
+exemple de match terminal :
+
+kevvv@MacBook-Air-de-Kevin realtime-elo-ranker % curl -X POST http://localhost:3000/api/match -H "Content-Type: application/json" -d '{"player1Id": "joueur 1", "player2Id": "joueur 2", "result": "WINNER_PLAYER2"}'
+{"message":"Match enregistré. joueur 2 gagne +100 points, joueur 1 perd -100 points."}%                                                                           
+kevvv@MacBook-Air-de-Kevin realtime-elo-ranker % curl -X POST http://localhost:3000/api/match -H "Content-Type: application/json" -d '{"player1Id": "joueur 1", "player2Id": "joueur 2", "result": "WINNER_PLAYER2"}'
+{"message":"Match enregistré. joueur 2 gagne +100 points, joueur 1 perd -100 points."}% 
