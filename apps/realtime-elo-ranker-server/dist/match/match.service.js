@@ -27,16 +27,19 @@ let MatchService = class MatchService {
         if (!player1 || !player2) {
             throw new Error("Un des joueurs n'existe pas.");
         }
+        let winner, loser;
         if (matchData.result === 'WINNER_PLAYER1') {
-            player1.wins += 1;
-            player2.losses += 1;
+            winner = player1;
+            loser = player2;
         }
         else {
-            player2.wins += 1;
-            player1.losses += 1;
+            winner = player2;
+            loser = player1;
         }
-        await this.playerRepository.save([player1, player2]);
-        return `Match enregistré : ${matchData.player1Id} vs ${matchData.player2Id}, vainqueur: ${matchData.result}`;
+        winner.rank += 100;
+        loser.rank -= 100;
+        await this.playerRepository.save([winner, loser]);
+        return { message: `Match enregistré. ${winner.id} gagne +100 points, ${loser.id} perd -100 points.` };
     }
 };
 exports.MatchService = MatchService;

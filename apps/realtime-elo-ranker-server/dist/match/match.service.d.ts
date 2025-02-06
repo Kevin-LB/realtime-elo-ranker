@@ -4,5 +4,7 @@ import { Player } from '../player/player.entity';
 export declare class MatchService {
     private playerRepository;
     constructor(playerRepository: Repository<Player>);
-    processMatchResult(matchData: PublishMatchDTO): Promise<string>;
+    processMatchResult(matchData: PublishMatchDTO): Promise<{
+        message: string;
+    }>;
 }

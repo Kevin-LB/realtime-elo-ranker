@@ -27,9 +27,10 @@ npx @nestjs/cli generate module ranking
 npx @nestjs/cli generate controller ranking
 
 
-ajouter un player :
+ajouter 2 joueurs :
 
-curl -X POST http://localhost:3000/api/player -H "Content-Type: application/json" -d '{"id": "John Doe"}'
+curl -X POST http://localhost:3000/api/player -H "Content-Type: application/json" -d '{"id": "joueur 1"}'
+curl -X POST http://localhost:3000/api/player -H "Content-Type: application/json" -d '{"id": "joueur 2"}'
 
 
 Ajouter la BD :
@@ -40,3 +41,7 @@ pnpm install --save @nestjs/typeorm typeorm sqlite3 -w
 pnpm add -w sql.js
 pnpm add -w @nestjs/typeorm typeorm sql.js
 
+
+simuler un match :
+
+curl -X POST http://localhost:3000/api/match -H "Content-Type: application/json" -d '{"player1Id": "joueur 1", "player2Id": "joueur 2", "result": "WINNER_PLAYER2"}'
