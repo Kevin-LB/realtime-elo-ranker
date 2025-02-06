@@ -35,9 +35,6 @@ curl -X POST http://localhost:3000/api/player -H "Content-Type: application/json
 
 Ajouter la BD :
 
-pnpm add sqlite3 -w  
-pnpm install --save @nestjs/typeorm typeorm sqlite3 -w
-
 pnpm add -w sql.js
 pnpm add -w @nestjs/typeorm typeorm sql.js
 

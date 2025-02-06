@@ -29,11 +29,13 @@ export class MatchService {
       loser = player1;
     }
 
-    // Mise à jour des scores
+    // Mise à jour des statistiques et des points
+    winner.wins += 1;
+    loser.losses += 1;
     winner.rank += 100;
     loser.rank -= 100;
 
-    // Sauvegarde dans la base de données
+    // Sauvegarde des mises à jour
     await this.playerRepository.save([winner, loser]);
 
     return { message: `Match enregistré. ${winner.id} gagne +100 points, ${loser.id} perd -100 points.` };

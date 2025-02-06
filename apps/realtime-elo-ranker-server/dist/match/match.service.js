@@ -36,6 +36,8 @@ let MatchService = class MatchService {
             winner = player2;
             loser = player1;
         }
+        winner.wins += 1;
+        loser.losses += 1;
         winner.rank += 100;
         loser.rank -= 100;
         await this.playerRepository.save([winner, loser]);
