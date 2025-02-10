@@ -1,8 +1,10 @@
-import { RankingService } from './ranking.service';
 import { Observable } from 'rxjs';
+import { EventService } from '../events/event.service';
+import { PlayerService } from '../player/player.service';
 export declare class RankingController {
-    private readonly rankingService;
-    constructor(rankingService: RankingService);
+    private eventService;
+    private readonly playerService;
+    constructor(eventService: EventService, playerService: PlayerService);
     getRanking(): Promise<import("../player/player.entity").Player[]>;
-    rankingEvents(): Observable<MessageEvent>;
+    sse(): Observable<MessageEvent>;
 }

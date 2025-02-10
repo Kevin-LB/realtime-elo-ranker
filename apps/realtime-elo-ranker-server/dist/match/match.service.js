@@ -17,9 +17,11 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const player_entity_1 = require("../player/player.entity");
+const event_service_1 = require("../events/event.service");
 let MatchService = class MatchService {
-    constructor(playerRepository) {
+    constructor(playerRepository, eventService) {
         this.playerRepository = playerRepository;
+        this.eventService = eventService;
     }
     async processMatchResult(matchData) {
         const player1 = await this.playerRepository.findOne({ where: { id: matchData.player1Id } });
@@ -41,6 +43,7 @@ let MatchService = class MatchService {
         winner.rank += 100;
         loser.rank -= 100;
         await this.playerRepository.save([winner, loser]);
+        this.eventService.emitEvent('rankingUpdate', { winner, loser });
         return { message: `Match enregistré. ${winner.id} gagne +100 points, ${loser.id} perd -100 points.` };
     }
 };
@@ -48,6 +51,7 @@ exports.MatchService = MatchService;
 exports.MatchService = MatchService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(player_entity_1.Player)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        event_service_1.EventService])
 ], MatchService);
 //# sourceMappingURL=match.service.js.map

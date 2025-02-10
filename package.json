@@ -20,7 +20,9 @@
     "typescript": "^5"
   },
   "dependencies": {
+    "@nestjs/event-emitter": "^3.0.0",
     "@nestjs/typeorm": "^11.0.0",
+    "eventemitter2": "^6.4.9",
     "sql.js": "^1.12.0",
     "sqlite3": "^5.1.7",
     "typeorm": "^0.3.20"

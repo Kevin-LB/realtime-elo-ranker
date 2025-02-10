@@ -11,17 +11,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RankingController = void 0;
 const common_1 = require("@nestjs/common");
-const ranking_service_1 = require("./ranking.service");
 const rxjs_1 = require("rxjs");
+const operators_1 = require("rxjs/operators");
+const event_service_1 = require("../events/event.service");
+const player_service_1 = require("../player/player.service");
 let RankingController = class RankingController {
-    constructor(rankingService) {
-        this.rankingService = rankingService;
+    constructor(eventService, playerService) {
+        this.eventService = eventService;
+        this.playerService = playerService;
     }
     async getRanking() {
-        return this.rankingService.getRanking();
+        return this.playerService.getAllPlayers();
     }
-    rankingEvents() {
-        return (0, rxjs_1.interval)(5000).pipe((0, rxjs_1.map)(() => new MessageEvent('rankingUpdate', { data: { message: 'Mise à jour du ranking' } })));
+    sse() {
+        return (0, rxjs_1.fromEvent)(this.eventService, 'playerRankingUpdate').pipe((0, operators_1.map)((data) => new MessageEvent('playerRankingUpdate', { data })));
     }
 };
 exports.RankingController = RankingController;
@@ -32,13 +35,14 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], RankingController.prototype, "getRanking", null);
 __decorate([
-    (0, common_1.Sse)('events'),
+    (0, common_1.Sse)('/events/'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", rxjs_1.Observable)
-], RankingController.prototype, "rankingEvents", null);
+], RankingController.prototype, "sse", null);
 exports.RankingController = RankingController = __decorate([
     (0, common_1.Controller)('api/ranking'),
-    __metadata("design:paramtypes", [ranking_service_1.RankingService])
+    __metadata("design:paramtypes", [event_service_1.EventService,
+        player_service_1.PlayerService])
 ], RankingController);
 //# sourceMappingURL=ranking.controller.js.map

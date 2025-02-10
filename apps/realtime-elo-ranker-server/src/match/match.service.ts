@@ -3,12 +3,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PublishMatchDTO } from './DTO/publish_match';
 import { Player } from '../player/player.entity';
+import { EventService } from '../events/event.service'; // Import du service d'événements
 
 @Injectable()
 export class MatchService {
   constructor(
     @InjectRepository(Player)
     private playerRepository: Repository<Player>,
+    private eventService: EventService, // Injection du EventService
   ) {}
 
   async processMatchResult(matchData: PublishMatchDTO): Promise<{ message: string }> {
@@ -19,7 +21,6 @@ export class MatchService {
       throw new Error("Un des joueurs n'existe pas.");
     }
 
-    // Déterminer le gagnant et le perdant
     let winner: Player, loser: Player;
     if (matchData.result === 'WINNER_PLAYER1') {
       winner = player1;
@@ -29,14 +30,15 @@ export class MatchService {
       loser = player1;
     }
 
-    // Mise à jour des statistiques et des points
     winner.wins += 1;
     loser.losses += 1;
     winner.rank += 100;
     loser.rank -= 100;
 
-    // Sauvegarde des mises à jour
     await this.playerRepository.save([winner, loser]);
+
+    // Émettre un événement pour notifier du changement de ranking
+    this.eventService.emitEvent('rankingUpdate', { winner, loser });
 
     return { message: `Match enregistré. ${winner.id} gagne +100 points, ${loser.id} perd -100 points.` };
   }
